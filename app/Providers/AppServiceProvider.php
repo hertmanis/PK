@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Enforce string length to 191 characters for MySQL
-        Schema::defaultStringLength(191);
+       
 
         // Force logout on every visit to reset the session (optional)
         if (Auth::check()) {

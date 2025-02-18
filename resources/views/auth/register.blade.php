@@ -1,30 +1,29 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Kāda ir Jūsu loma klubā?</h2>
+    <h2 class="text-3xl font-bold mb-8 text-center">Choose Your Role</h2>
 
-            <div class="grid grid-cols-2 gap-6">
-
-                <a href="{{ route('register.player') }}" class="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:bg-gray-50 transition duration-300 block text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="text-5xl text-green-500 mb-2">
-                            <i class="fas fa-tshirt"></i> <span class="text-2xl">10</span>
-                        </div>
-                        <span class="font-medium">Sportists</span>
-                    </div>
+    <div class="grid grid-cols-2 gap-8">
+        <!-- Player Section -->
+        <div class="text-center">
+            <a href="{{ route('register.player') }}" class="block bg-green-500 text-white text-xl py-4 px-6 rounded-lg hover:bg-green-700 transition duration-300">
+                Register as Player
+            </a>
+            <div class="mt-4">
+                <a href="https://www.flaticon.com/free-icons/athlete" title="athlete icons">
+                    <img src="{{ asset('images/athlete.png') }}" alt="Athlete Icon" class="mx-auto w-20 h-20">
                 </a>
-
-                <a href="{{ route('register.coach') }}" class="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:bg-gray-50 transition duration-300 block text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="text-5xl text-green-500 mb-2">
-                            <i class="fas fa-briefcase"></i> <i class="fas fa-bullhorn"></i>
-                        </div>
-                        <span class="font-medium">Treneris vai menedžeris</span>
-                    </div>
-                </a>
-
             </div>
+        </div>
 
+        <!-- Coach Section -->
+        <div class="text-center">
+            <a href="{{ route('register.coach') }}" class="block bg-blue-500 text-white text-xl py-4 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+                Register as Coach
+            </a>
+            <div class="mt-4">
+                <a href="https://www.flaticon.com/free-icons/coach" title="coach icons">
+                    <img src="{{ asset('images/coach.png') }}" alt="Coach Icon" class="mx-auto w-20 h-20">
+                </a>
+            </div>
         </div>
     </div>
 </x-guest-layout>
