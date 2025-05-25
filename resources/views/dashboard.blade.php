@@ -10,7 +10,7 @@
             <h1 class="text-3xl font-semibold text-center mb-8">
                 Welcome, {{ Auth::user()->name }}!
             </h1>
-            <p class="text-gray-600 text-center">Role not recognized.</p>
+            <p class="text-gray-600 text-center">Kļūda.</p>
         </div>
     @endif
 @endsection

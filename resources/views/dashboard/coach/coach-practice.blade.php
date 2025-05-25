@@ -17,21 +17,30 @@
         </div>
     @endif
 
-    <!-- Calendar Container -->
     <div id="calendar"></div>
 
-    <!-- FullCalendar.js Scripts -->
+    <!-- FullCalendar + LV lokalizācija -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
+            const calendarEl = document.getElementById('calendar');
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'lv', // <- Latviešu valoda
                 initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today: 'Šodien',
+                    month: 'Mēnesis',
+                    week: 'Nedēļa',
+                    day: 'Diena',
+                    list: 'Saraksts'
                 },
                 events: {!! json_encode($practices->map(function($practice) {
                     return [
@@ -44,9 +53,9 @@
                     ];
                 })) !!},
                 eventClick: function(info) {
-                    alert('Practice: ' + info.event.title + '\n' +
-                          'Date: ' + info.event.start.toLocaleString() + '\n' +
-                          'Details: ' + info.event.extendedProps.description);
+                    alert('Aktivitāte: ' + info.event.title + '\n' +
+                          'Datums un laiks: ' + info.event.start.toLocaleString() + '\n' +
+                          'Apraksts: ' + info.event.extendedProps.description);
                 }
             });
 
