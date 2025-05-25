@@ -13,7 +13,7 @@
         <button 
         onclick="window.location.href='/register'" 
         class="bg-[#2E3944] hover:bg-[#748D92] text-white font-bold py-3 px-6 rounded">
-        Pierakstīties
+        Piereģistrēties
         </button>
 
             <button
@@ -23,7 +23,7 @@
             </button>
         </div>
         <p class="mt-4 text-sm text-[#D3D9D4]">
-            Pierakstoties nav nepieciešama kreditkarte.
+            Piereģistrējoties nav nepieciešama kreditkarte.
         </p>
     </div>
 </section>

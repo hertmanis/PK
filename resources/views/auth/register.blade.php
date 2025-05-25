@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <h2 class="text-3xl font-bold mb-8 text-center">Choose Your Role</h2>
+    <h2 class="text-3xl font-bold mb-8 text-center">Reģistrējies kā</h2>
 
     <div class="grid grid-cols-2 gap-8">
         <!-- Player Section -->
         <div class="text-center">
             <a href="{{ route('register.player') }}" class="block bg-green-500 text-white text-xl py-4 px-6 rounded-lg hover:bg-green-700 transition duration-300">
-                Register as Player
+                Spēlētājs
             </a>
             <div class="mt-4">
                 <a href="https://www.flaticon.com/free-icons/athlete" title="athlete icons">
@@ -17,7 +17,7 @@
         <!-- Coach Section -->
         <div class="text-center">
             <a href="{{ route('register.coach') }}" class="block bg-blue-500 text-white text-xl py-4 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
-                Register as Coach
+                Treneris
             </a>
             <div class="mt-4">
                 <a href="https://www.flaticon.com/free-icons/coach" title="coach icons">

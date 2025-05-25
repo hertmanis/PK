@@ -24,6 +24,15 @@
                 <input type="datetime-local" name="scheduled_at" id="scheduled_at" class="w-full p-2 border rounded" required>
             </div>
 
+            <!-- Jaunais lauks: aktivitātes veids -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="type">Aktivitātes veids</label>
+                <select name="type" id="type" class="w-full p-2 border rounded" required>
+                    <option value="treninga">Treniņš</option>
+                    <option value="spele">Spēle</option>
+                </select>
+            </div>
+
             <button type="submit" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Izveidot
             </button>

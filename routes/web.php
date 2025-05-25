@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ManageTeamController;
 use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StripeWebhookController;
 
 // Home route
 Route::get('/', function () {
@@ -31,8 +34,30 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/coach', [RegisteredUserController::class, 'storeCoach'])->name('register.coach.store');
 });
 
-// Authenticated-only routes
-Route::middleware('auth')->group(function () {
+// Payment Routes
+Route::post('/stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
+Route::get('/checkout', [StripeController::class, 'checkout']); // Route for initiating checkout
+Route::get('/payment/success/{paymentId}', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [StripeController::class, 'cancel'])->name('payment.cancel'); // Route for cancel page
+// Rāda maksājuma apstiprinājuma lapu
+// Izmaiņas, lai atbalstītu GET pieprasījumu
+
+
+Route::post('/payment/checkout/{paymentId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
+
+
+
+
+Route::delete('/team/remove-member/{id}', [ManageTeamController::class, 'removeMember'])->name('team.removeMember');
+
+
+
+// Routes for authenticated users only
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         $user = Auth::user();
 
@@ -40,7 +65,6 @@ Route::middleware('auth')->group(function () {
             return redirect('/login');
         }
 
-        
         \Log::info('User Role:', ['role' => $user->role]);
 
         if ($user->role == 0) { // Coach
@@ -59,6 +83,28 @@ Route::middleware('auth')->group(function () {
 
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    // Payment Routes for coach and player
+    Route::prefix('coach')->group(function () {
+        Route::get('/payments', [PaymentController::class, 'coachIndex'])->name('coach.payments');
+        Route::post('/payments', [PaymentController::class, 'store'])->name('coach.payments.store');
+    });
+
+    Route::get('/player/payments', [PaymentController::class, 'playerIndex'])->name('player.payments');
+    Route::get('/payment/pay/{payment}', [PaymentController::class, 'showPaymentPage'])->name('payment.pay');
+
+
+    // Manage team and practices
+    Route::get('/manage-team', [ManageTeamController::class, 'index']);
+    Route::get('/practices', [PracticeController::class, 'index'])->name('practices.index');
+    Route::get('/practices/create', [PracticeController::class, 'create'])->name('practices.create');
+    Route::post('/practices', [PracticeController::class, 'store'])->name('practices.store');
+    Route::delete('/practices/{id}', [PracticeController::class, 'destroy'])->name('practices.destroy');
+
+    Route::get('/participate/{practiceId}/{userId}', [PracticeController::class, 'getParticipationStatus']);
+    Route::post('/participate/{practiceId}/{userId}/update', [PracticeController::class, 'updateParticipationStatus']);
+    
+    Route::patch('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 });
 
 // Public pages
@@ -73,19 +119,6 @@ Route::get('/options', function () {
 Route::get('/prices', function () {
     return view('prices');
 })->name('prices');
-
-Route::get('/manage-team', [ManageTeamController::class, 'index'])->middleware('auth');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/practices', [PracticeController::class, 'index'])->name('practices.index');
-    Route::get('/practices/create', [PracticeController::class, 'create'])->name('practices.create');
-    Route::post('/practices', [PracticeController::class, 'store'])->name('practices.store');
-    Route::delete('/practices/{id}', [PracticeController::class, 'destroy'])->name('practices.destroy');
-});
-
-Route::patch('/profile/change-password', [ProfileController::class, 'changePassword'])
-    ->middleware('auth')
-    ->name('profile.change-password');
 
 // Include additional default Laravel auth routes
 require __DIR__.'/auth.php';

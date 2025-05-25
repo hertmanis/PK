@@ -22,10 +22,13 @@
                 @if(Auth::user()->role == 1) 
                     <!-- Player -->
                     <a href="{{ url('/practices') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Grafiks</a>
+                    <a href="{{ route('player.payments') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Maksājumi</a>
                 @elseif(Auth::user()->role == 0) 
                     <!-- Coach -->
                     <a href="{{ url('/manage-team') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Pārvaldīt komandu</a>
-                    <a href="{{ url('/practices') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Grafiks</a>  <!-- Added this -->
+                    <a href="{{ url('/practices') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Grafiks</a>
+                    <a href="{{ route('coach.payments') }}" class="text-gray-600 hover:text-gray-900 transition duration-300">Maksājumi</a>
+
                 @endif
             @endauth
 

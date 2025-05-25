@@ -21,4 +21,21 @@ class ManageTeamController extends Controller
 
         return view('dashboard.coach.manage-team', compact('teamMembers'));
     }
+
+    public function removeMember($id)
+{
+    $user = Auth::user();
+    $member = User::findOrFail($id);
+
+    // Pārbauda, vai dalībnieks pieder pie trenera komandas
+    if ($member->team_id !== $user->team_id) {
+        abort(403, 'Jums nav atļauts dzēst šo spēlētāju.');
+    }
+
+    // Noņem lietotāju no komandas
+    $member->team_id = null;
+    $member->save();
+
+    return redirect()->back()->with('success', 'Spēlētājs tika dzēsts no komandas.');
+}
 }

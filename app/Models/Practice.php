@@ -9,7 +9,8 @@ class Practice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['team_id', 'coach_id', 'title', 'description', 'scheduled_at'];
+    protected $fillable = ['team_id', 'coach_id', 'title', 'description', 'scheduled_at', 'type'];
+
 
     public function team()
     {

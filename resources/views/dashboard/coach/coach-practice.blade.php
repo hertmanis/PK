@@ -38,7 +38,9 @@
                         'title' => $practice->title,
                         'start' => $practice->scheduled_at,
                         'description' => $practice->description,
-                        'id' => $practice->id
+                        'id' => $practice->id,
+                        'backgroundColor' => $practice->type === 'spele' ? '#ef4444' : '#3b82f6',
+                        'textColor' => '#ffffff'
                     ];
                 })) !!},
                 eventClick: function(info) {
