@@ -17,24 +17,24 @@ class PaymentController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $payments = Payment::all(); // varat filtrēt pēc vajadzības
+        $payments = Payment::all(); 
         return view('dashboard.payment.coach-payment', compact('payments'));
     }
 
     // Maksājuma radīšana
     public function store(Request $request)
     {
-        // Validācija (ja nepieciešams)
+        
         $request->validate([
             'amount' => 'required|numeric',
             'description' => 'required|string|max:255',
         ]);
 
-        // Izveido maksājumu, pievienojot 'created_by' kā pašreizējā lietotāja ID
+        // Izveido maksājumu
         $payment = Payment::create([
             'amount' => $request->amount,
             'description' => $request->description,
-            'created_by' => auth()->user()->id, // Pievienojam lietotāja ID
+            'created_by' => auth()->user()->id, 
         ]);
 
         return redirect()->route('coach.payments')->with('success', 'Maksājums izveidots veiksmīgi.');
@@ -49,7 +49,6 @@ class PaymentController extends Controller
         abort(403, 'Unauthorized');
     }
 
-    // Atrodi visus trenerus šajā komandā
     $coachIds = \App\Models\User::where('team_id', $player->team_id)
         ->where('role', 0)
         ->pluck('id');
@@ -67,7 +66,6 @@ public function showPaymentPage($paymentId)
     // Autentificēts lietotājs
     $user = auth()->user();
 
-    // Pārbaude: tikai lietotāji no tās pašas komandas var skatīt maksājumu
     if ($user->team_id !== $payment->team_id) {
         abort(403, 'Jums nav piekļuves šim maksājumam.');
     }
@@ -123,7 +121,7 @@ public function success(Request $request, $paymentId)
 {
     $payment = Payment::findOrFail($paymentId);
 
-    // Optional: verifikācija ar Stripe API (drošāks)
+    
     if ($request->has('session_id')) {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -135,7 +133,7 @@ public function success(Request $request, $paymentId)
                 $payment->save();
             }
         } catch (\Exception $e) {
-            // Handle error silently or log
+            
         }
     }
 
@@ -146,7 +144,7 @@ public function success(Request $request, $paymentId)
     // Maksājuma atcelšana
     public function cancel()
     {
-        // Parādām maksājuma atcelšanas lapu
+        
         return view('payment.cancel');
     }
 }
